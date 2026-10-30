@@ -1,4 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'skills/access/repository/repository_provider_page.dart';
+import 'skills/access/route_value/provider_value_page.dart';
+import 'skills/access/patterns/access_patterns_page.dart';
 import 'skills/widgets/multi_bloc/multi_bloc_page.dart';
 import 'skills/widgets/consumer/consumer_page.dart';
 import 'skills/widgets/listener/listener_page.dart';
@@ -106,7 +109,20 @@ class HomeScreen extends StatelessWidget {
         subtitle: 'read, watch, select, BlocProvider.value, RepositoryProvider',
         icon: Icons.hub_outlined,
         color: Colors.orange,
-        examples: [],
+        examples: [
+          ExampleItem(
+            title: 'Access Patterns — read, watch, select',
+            page: const AccessPatternsPage(),
+          ),
+          ExampleItem(
+            title: 'BlocProvider.value — Route Passing',
+            page: const ProviderValuePage(),
+          ),
+          ExampleItem(
+            title: 'RepositoryProvider — Service DI',
+            page: const RepositoryProviderPage(),
+          ),
+        ],
       ),
       SkillItem(
         title: 'State Design Patterns',

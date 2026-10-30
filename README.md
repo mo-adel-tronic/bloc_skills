@@ -907,7 +907,7 @@ Use `git log --oneline` to see the skill commits. Here is the roadmap:
 | 2 | `skill 1: cubit — the simplified BLoC` | Skill 1: Cubit | ✅ Available | Counter (`int` state), Theme Toggle (`ThemeMode` enum), Lifecycle (`onChange` & `close()`) |
 | 3 | `skill 2: bloc — events & states` | Skill 2: BLoC | ✅ Available | Auth Flow (sealed events & states, async emit), `AppBlocObserver` global logger |
 | 4 | `skill 3: bloc widgets — builder, listener & consumer` | Skill 3: BLoC Widgets | ✅ Available | `buildWhen`, `BlocListener` side-effects, `BlocConsumer`, `MultiBloc` |
-| 5 | `skill 4: bloc access & DI — read, watch, select & providers` | Skill 4: Access & DI | ⏳ Planned | `context.read/watch/select`, `BlocProvider.value`, `RepositoryProvider` |
+| 5 | `skill 4: bloc access & DI — read, watch, select & providers` | Skill 4: Access & DI | ✅ Available | `context.read/watch/select`, `BlocProvider.value`, `RepositoryProvider` |
 | 6 | `skill 5: state design patterns — status, equatable & sealed` | Skill 5: State Patterns | ⏳ Planned | `status` enum + `copyWith`, `Equatable` value equality, Sealed hierarchies |
 | 7 | `skill 6: advanced bloc patterns — stream subs, transformers & hydrated` | Skill 6: Advanced | ⏳ Planned | BLoC-to-BLoC, `bloc_concurrency`, `HydratedBloc`, testing |
 
@@ -920,6 +920,7 @@ Use `git log --oneline` to see the skill commits. Here is the roadmap:
 >    - `git checkout <commit-2>`: Skill 1 (Cubit) unlocked with 3 live examples.
 >    - `git checkout <commit-3>`: Skill 2 (BLoC) unlocked with Auth Flow and Global Observer.
 >    - `git checkout <commit-4>`: Skill 3 (BLoC Widgets) unlocked with 4 live widget examples.
+>    - `git checkout <commit-5>`: Skill 4 (BLoC Access & DI) unlocked with 3 live examples.
 > 3. `git checkout main` — return to the latest unlocked skill.
 
 ---
