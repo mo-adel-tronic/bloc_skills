@@ -1,4 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'skills/widgets/multi_bloc/multi_bloc_page.dart';
+import 'skills/widgets/consumer/consumer_page.dart';
+import 'skills/widgets/listener/listener_page.dart';
+import 'skills/widgets/builder/build_when_page.dart';
 import 'skills/bloc/observer/app_bloc_observer.dart';
 import 'skills/bloc/observer/observer_page.dart';
 import 'skills/bloc/auth/auth_page.dart';
@@ -78,7 +82,24 @@ class HomeScreen extends StatelessWidget {
         subtitle: 'BlocBuilder, BlocListener, BlocConsumer, MultiBloc',
         icon: Icons.widgets_outlined,
         color: Colors.teal,
-        examples: [],
+        examples: [
+          ExampleItem(
+            title: 'BlocBuilder — buildWhen Optimization',
+            page: const BuildWhenPage(),
+          ),
+          ExampleItem(
+            title: 'BlocListener — Side Effects & Dialogs',
+            page: const ListenerPage(),
+          ),
+          ExampleItem(
+            title: 'BlocConsumer — Builder + Listener Combined',
+            page: const ConsumerPage(),
+          ),
+          ExampleItem(
+            title: 'MultiBloc — MultiBlocProvider & Listener',
+            page: const MultiBlocPage(),
+          ),
+        ],
       ),
       SkillItem(
         title: 'BLoC Access & DI',
