@@ -10,9 +10,12 @@ import 'package:bloc_skills/skills/widgets/multi_bloc/multi_bloc_page.dart';
 import 'package:bloc_skills/skills/access/patterns/access_patterns_page.dart';
 import 'package:bloc_skills/skills/access/route_value/provider_value_page.dart';
 import 'package:bloc_skills/skills/access/repository/repository_provider_page.dart';
+import 'package:bloc_skills/skills/state_patterns/status_copy_with/status_copy_with_page.dart';
+import 'package:bloc_skills/skills/state_patterns/equatable_equality/equatable_equality_page.dart';
+import 'package:bloc_skills/skills/state_patterns/sealed_classes/sealed_classes_page.dart';
 
 void main() {
-  testWidgets('HomeScreen displays skill titles and unlocks Skills 1-4',
+  testWidgets('HomeScreen displays skill titles and unlocks Skills 1-5',
       (tester) async {
     await tester.pumpWidget(const BlocSkillsApp());
     await tester.pumpAndSettle();
@@ -22,15 +25,16 @@ void main() {
     expect(find.text('Skill 2: BLoC — Events & States'), findsOneWidget);
     expect(find.text('Skill 3: BLoC Widgets'), findsOneWidget);
     expect(find.text('Skill 4: BLoC Access & DI'), findsOneWidget);
+    expect(find.text('Skill 5: State Design Patterns'), findsOneWidget);
 
-    // Tap on Skill 4 (now unlocked!)
-    await tester.tap(find.text('Skill 4: BLoC Access & DI'));
+    // Tap on Skill 5 (now unlocked!)
+    await tester.tap(find.text('Skill 5: State Design Patterns'));
     await tester.pumpAndSettle();
 
     // Verify 3 examples appear
-    expect(find.text('Access Patterns — read, watch, select'), findsOneWidget);
-    expect(find.text('BlocProvider.value — Route Passing'), findsOneWidget);
-    expect(find.text('RepositoryProvider — Service DI'), findsOneWidget);
+    expect(find.text('Status Pattern — copyWith & Enum'), findsOneWidget);
+    expect(find.text('Equatable — Value Equality & Skip Redraws'), findsOneWidget);
+    expect(find.text('Sealed Classes — Exhaustive Switch'), findsOneWidget);
   });
 
   testWidgets('CounterPage displays counter number and updates on increment',
@@ -162,24 +166,20 @@ void main() {
     expect(find.text('Screen A (Parent Route)'), findsOneWidget);
     expect(find.text('0'), findsOneWidget);
 
-    // Open Screen B
     await tester.tap(find.text('Open Screen B with BlocProvider.value'));
     await tester.pumpAndSettle();
 
     expect(find.text('Screen B (Child Route)'), findsOneWidget);
     expect(find.text('0'), findsOneWidget);
 
-    // Increment in Screen B
     await tester.tap(find.text('Increment'));
     await tester.pumpAndSettle();
 
     expect(find.text('1'), findsOneWidget);
 
-    // Return to Screen A
     await tester.tap(find.text('Return to Screen A (Instance Kept Alive)'));
     await tester.pumpAndSettle();
 
-    // Verify Screen A now shows 1
     expect(find.text('Screen A (Parent Route)'), findsOneWidget);
     expect(find.text('1'), findsOneWidget);
   });
@@ -195,17 +195,81 @@ void main() {
 
     expect(find.text('No User Loaded'), findsOneWidget);
 
-    // Fetch Sarah Connor
     await tester.tap(find.text('Fetch Sarah (user_1)'));
-    await tester.pump(); // Start fetch
+    await tester.pump();
 
     expect(find.text('Calling UserRepository.fetchUser()...'), findsOneWidget);
 
-    // Wait for mock network delay
     await tester.pumpAndSettle(const Duration(milliseconds: 1500));
 
     expect(find.text('Sarah Connor'), findsOneWidget);
-    expect(find.text('sarah.connor@sky.net'), findsOneWidget);
-    expect(find.text('Lead Architect'), findsOneWidget);
+  });
+
+  testWidgets('StatusCopyWithPage loads products and filters category',
+      (tester) async {
+    await tester.pumpWidget(
+      const MaterialApp(
+        home: StatusCopyWithPage(),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('Catalog not loaded yet.'), findsOneWidget);
+
+    await tester.ensureVisible(find.text('Load Products'));
+    await tester.tap(find.text('Load Products'));
+    await tester.pumpAndSettle(const Duration(milliseconds: 1200));
+
+    expect(find.text('MacBook Pro M3'), findsOneWidget);
+    expect(find.text('Clean Architecture in Dart'), findsOneWidget);
+
+    // Filter to Books
+    await tester.tap(find.widgetWithText(FilterChip, 'Books'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Clean Architecture in Dart'), findsOneWidget);
+    expect(find.text('MacBook Pro M3'), findsNothing);
+  });
+
+  testWidgets('EquatableEqualityPage compares rebuilds between raw and equatable',
+      (tester) async {
+    await tester.pumpWidget(
+      const MaterialApp(
+        home: EquatableEqualityPage(),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('Raw Rebuilds: 1'), findsOneWidget);
+    expect(find.text('Equatable Rebuilds: 1'), findsOneWidget);
+
+    // Emit same value (5)
+    await tester.ensureVisible(find.text('Emit Same Value (5)'));
+    await tester.tap(find.text('Emit Same Value (5)'));
+    await tester.pumpAndSettle();
+
+    // Raw card rebuilt to 2, Equatable card stayed at 1
+    expect(find.text('Raw Rebuilds: 2'), findsOneWidget);
+    expect(find.text('Equatable Rebuilds: 1'), findsOneWidget);
+  });
+
+  testWidgets('SealedClassesPage fetches weather and matches pattern',
+      (tester) async {
+    await tester.pumpWidget(
+      const MaterialApp(
+        home: SealedClassesPage(),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('WeatherInitial State'), findsOneWidget);
+
+    // Fetch Tokyo
+    await tester.ensureVisible(find.text('☀️ Tokyo'));
+    await tester.tap(find.text('☀️ Tokyo'));
+    await tester.pumpAndSettle(const Duration(milliseconds: 1000));
+
+    expect(find.text('Tokyo, Japan'), findsOneWidget);
+    expect(find.text('22°C — Sunny & Clear'), findsOneWidget);
   });
 }

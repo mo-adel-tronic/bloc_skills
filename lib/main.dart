@@ -1,4 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'skills/state_patterns/sealed_classes/sealed_classes_page.dart';
+import 'skills/state_patterns/equatable_equality/equatable_equality_page.dart';
+import 'skills/state_patterns/status_copy_with/status_copy_with_page.dart';
 import 'skills/access/repository/repository_provider_page.dart';
 import 'skills/access/route_value/provider_value_page.dart';
 import 'skills/access/patterns/access_patterns_page.dart';
@@ -129,7 +132,20 @@ class HomeScreen extends StatelessWidget {
         subtitle: 'Status copyWith, Equatable equality, Sealed classes',
         icon: Icons.architecture,
         color: Colors.indigo,
-        examples: [],
+        examples: [
+          ExampleItem(
+            title: 'Status Pattern — copyWith & Enum',
+            page: const StatusCopyWithPage(),
+          ),
+          ExampleItem(
+            title: 'Equatable — Value Equality & Skip Redraws',
+            page: const EquatableEqualityPage(),
+          ),
+          ExampleItem(
+            title: 'Sealed Classes — Exhaustive Switch',
+            page: const SealedClassesPage(),
+          ),
+        ],
       ),
       SkillItem(
         title: 'Advanced BLoC Patterns',
