@@ -13,9 +13,12 @@ import 'package:bloc_skills/skills/access/repository/repository_provider_page.da
 import 'package:bloc_skills/skills/state_patterns/status_copy_with/status_copy_with_page.dart';
 import 'package:bloc_skills/skills/state_patterns/equatable_equality/equatable_equality_page.dart';
 import 'package:bloc_skills/skills/state_patterns/sealed_classes/sealed_classes_page.dart';
+import 'package:bloc_skills/skills/advanced/bloc_to_bloc/bloc_to_bloc_page.dart';
+import 'package:bloc_skills/skills/advanced/event_transformers/event_transformers_page.dart';
+import 'package:bloc_skills/skills/advanced/bloc_testing/bloc_testing_page.dart';
 
 void main() {
-  testWidgets('HomeScreen displays skill titles and unlocks Skills 1-5',
+  testWidgets('HomeScreen displays skill titles and unlocks Skills 1-6',
       (tester) async {
     await tester.pumpWidget(const BlocSkillsApp());
     await tester.pumpAndSettle();
@@ -26,15 +29,19 @@ void main() {
     expect(find.text('Skill 3: BLoC Widgets'), findsOneWidget);
     expect(find.text('Skill 4: BLoC Access & DI'), findsOneWidget);
     expect(find.text('Skill 5: State Design Patterns'), findsOneWidget);
+    // Scroll down to Skill 6
+    final skill6Finder = find.text('Skill 6: Advanced BLoC Patterns');
+    await tester.scrollUntilVisible(skill6Finder, 200);
+    expect(skill6Finder, findsOneWidget);
 
-    // Tap on Skill 5 (now unlocked!)
-    await tester.tap(find.text('Skill 5: State Design Patterns'));
+    // Tap on Skill 6 (now unlocked!)
+    await tester.tap(skill6Finder);
     await tester.pumpAndSettle();
 
     // Verify 3 examples appear
-    expect(find.text('Status Pattern — copyWith & Enum'), findsOneWidget);
-    expect(find.text('Equatable — Value Equality & Skip Redraws'), findsOneWidget);
-    expect(find.text('Sealed Classes — Exhaustive Switch'), findsOneWidget);
+    expect(find.text('BLoC-to-BLoC — StreamSubscription Sync'), findsOneWidget);
+    expect(find.text('Event Transformers — droppable & restartable'), findsOneWidget);
+    expect(find.text('Testing BLoC — bloc_test & Assertions'), findsOneWidget);
   });
 
   testWidgets('CounterPage displays counter number and updates on increment',
@@ -271,5 +278,88 @@ void main() {
 
     expect(find.text('Tokyo, Japan'), findsOneWidget);
     expect(find.text('22°C — Sunny & Clear'), findsOneWidget);
+  });
+
+  testWidgets('BlocToBlocPage synchronizes session through stream subscription',
+      (tester) async {
+    await tester.pumpWidget(
+      const MaterialApp(
+        home: BlocToBlocPage(),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('Access Restricted'), findsOneWidget);
+    expect(find.text('Locked — Please Authenticate'), findsOneWidget);
+
+    // Login as Member
+    await tester.tap(find.text('Login as Member'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Access Granted'), findsOneWidget);
+    expect(find.text('📄 MEMBER VAULT: Standard user dashboard content.'), findsOneWidget);
+
+    // Logout
+    await tester.tap(find.text('Logout'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Access Restricted'), findsOneWidget);
+    expect(find.text('Locked — Please Authenticate'), findsOneWidget);
+  });
+
+  testWidgets('EventTransformersPage executes droppable payment and restartable search',
+      (tester) async {
+    await tester.pumpWidget(
+      const MaterialApp(
+        home: EventTransformersPage(),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('Ready to submit transaction.'), findsOneWidget);
+
+    // Tap payment
+    await tester.ensureVisible(find.text('Process Payment (\$100)'));
+    await tester.tap(find.text('Process Payment (\$100)'));
+    await tester.pump();
+
+    expect(find.text('⏳ Processing transaction of \$100...'), findsOneWidget);
+
+    await tester.pumpAndSettle(const Duration(milliseconds: 1200));
+    expect(find.text('✅ Payment of \$100 confirmed successfully!'), findsOneWidget);
+
+    // Tap quick chip BLoC
+    await tester.ensureVisible(find.widgetWithText(ActionChip, 'BLoC'));
+    await tester.tap(find.widgetWithText(ActionChip, 'BLoC'));
+    await tester.pumpAndSettle(const Duration(milliseconds: 800));
+
+    expect(find.text('BLoC Pattern'), findsOneWidget);
+  });
+
+  testWidgets('BlocTestingPage adds items to cart and executes test runner',
+      (tester) async {
+    await tester.pumpWidget(
+      const MaterialApp(
+        home: BlocTestingPage(),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('Cart is currently empty (CartInitial).'), findsOneWidget);
+
+    // Add Headphones
+    await tester.ensureVisible(find.text('Add Headphones (\$80)'));
+    await tester.tap(find.text('Add Headphones (\$80)'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Total: \$80'), findsOneWidget);
+
+    // Run Test Suite
+    await tester.ensureVisible(find.text('Run Test Suite'));
+    await tester.tap(find.text('Run Test Suite'));
+    await tester.pumpAndSettle(const Duration(milliseconds: 2000));
+
+    expect(find.text('initial state is CartInitial'), findsOneWidget);
+    expect(find.text('emits [CartLoaded] when AddCartItem is added'), findsOneWidget);
   });
 }

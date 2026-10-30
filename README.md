@@ -909,7 +909,7 @@ Use `git log --oneline` to see the skill commits. Here is the roadmap:
 | 4 | `skill 3: bloc widgets — builder, listener & consumer` | Skill 3: BLoC Widgets | ✅ Available | `buildWhen`, `BlocListener` side-effects, `BlocConsumer`, `MultiBloc` |
 | 5 | `skill 4: bloc access & DI — read, watch, select & providers` | Skill 4: Access & DI | ✅ Available | `context.read/watch/select`, `BlocProvider.value`, `RepositoryProvider` |
 | 6 | `skill 5: state design patterns — status, equatable & sealed` | Skill 5: State Patterns | ✅ Available | `status` enum + `copyWith`, `Equatable` value equality, Sealed hierarchies |
-| 7 | `skill 6: advanced bloc patterns — stream subs, transformers & hydrated` | Skill 6: Advanced | ⏳ Planned | BLoC-to-BLoC, `bloc_concurrency`, `HydratedBloc`, testing |
+| 7 | `skill 6: advanced bloc patterns — stream subs, transformers & testing` | Skill 6: Advanced | ✅ Available | BLoC-to-BLoC (`StreamSubscription`), `bloc_concurrency` (`droppable`, `restartable`), `bloc_test` unit testing |
 
 ---
 
@@ -922,6 +922,7 @@ Use `git log --oneline` to see the skill commits. Here is the roadmap:
 >    - `git checkout <commit-4>`: Skill 3 (BLoC Widgets) unlocked with 4 live widget examples.
 >    - `git checkout <commit-5>`: Skill 4 (BLoC Access & DI) unlocked with 3 live examples.
 >    - `git checkout <commit-6>`: Skill 5 (State Design Patterns) unlocked with 3 live examples.
+>    - `git checkout <commit-7>`: Skill 6 (Advanced BLoC Patterns) unlocked with 3 live examples and unit tests.
 > 3. `git checkout main` — return to the latest unlocked skill.
 
 ---

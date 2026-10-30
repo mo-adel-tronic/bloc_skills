@@ -1,4 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'skills/advanced/bloc_testing/bloc_testing_page.dart';
+import 'skills/advanced/event_transformers/event_transformers_page.dart';
+import 'skills/advanced/bloc_to_bloc/bloc_to_bloc_page.dart';
 import 'skills/state_patterns/sealed_classes/sealed_classes_page.dart';
 import 'skills/state_patterns/equatable_equality/equatable_equality_page.dart';
 import 'skills/state_patterns/status_copy_with/status_copy_with_page.dart';
@@ -46,7 +49,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final skills = [
+    final List<SkillItem> skills = [
       SkillItem(
         title: 'Cubit — The Simplified BLoC',
         subtitle: 'Methods, emit, State types, Lifecycle & Clean up',
@@ -149,10 +152,23 @@ class HomeScreen extends StatelessWidget {
       ),
       SkillItem(
         title: 'Advanced BLoC Patterns',
-        subtitle: 'BLoC-to-BLoC, Event Transformers, Testing, HydratedBloc',
+        subtitle: 'BLoC-to-BLoC, Event Transformers, Testing',
         icon: Icons.psychology_outlined,
         color: Colors.redAccent,
-        examples: [],
+        examples: [
+          ExampleItem(
+            title: 'BLoC-to-BLoC — StreamSubscription Sync',
+            page: const BlocToBlocPage(),
+          ),
+          ExampleItem(
+            title: 'Event Transformers — droppable & restartable',
+            page: const EventTransformersPage(),
+          ),
+          ExampleItem(
+            title: 'Testing BLoC — bloc_test & Assertions',
+            page: const BlocTestingPage(),
+          ),
+        ],
       ),
     ];
 
