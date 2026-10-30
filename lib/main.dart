@@ -1,3 +1,6 @@
+import 'skills/cubit/lifecycle/lifecycle_page.dart';
+import 'skills/cubit/theme/theme_page.dart';
+import 'skills/cubit/counter/counter_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -33,7 +36,20 @@ class HomeScreen extends StatelessWidget {
         subtitle: 'Methods, emit, State types, Lifecycle & Clean up',
         icon: Icons.speed,
         color: Colors.blue,
-        examples: [],
+        examples: [
+          ExampleItem(
+            title: 'Counter — Basic Cubit with int State',
+            page: const CounterPage(),
+          ),
+          ExampleItem(
+            title: 'Theme Toggle — Enum State (ThemeMode)',
+            page: const ThemePage(),
+          ),
+          ExampleItem(
+            title: 'Lifecycle — onChange() & close() Cleanup',
+            page: const LifecyclePage(),
+          ),
+        ],
       ),
       SkillItem(
         title: 'BLoC — Events & States',
