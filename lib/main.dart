@@ -1,9 +1,15 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'skills/bloc/observer/app_bloc_observer.dart';
+import 'skills/bloc/observer/observer_page.dart';
+import 'skills/bloc/auth/auth_page.dart';
 import 'skills/cubit/lifecycle/lifecycle_page.dart';
 import 'skills/cubit/theme/theme_page.dart';
 import 'skills/cubit/counter/counter_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  Bloc.observer = AppBlocObserver();
   runApp(const BlocSkillsApp());
 }
 
@@ -56,7 +62,16 @@ class HomeScreen extends StatelessWidget {
         subtitle: 'Sealed classes, Event handlers, Async emit, Observer',
         icon: Icons.sync_alt,
         color: Colors.deepPurple,
-        examples: [],
+        examples: [
+          ExampleItem(
+            title: 'Auth Flow — Events & Sealed States',
+            page: const AuthPage(),
+          ),
+          ExampleItem(
+            title: 'BlocObserver — Global Monitoring & Logging',
+            page: const ObserverPage(),
+          ),
+        ],
       ),
       SkillItem(
         title: 'BLoC Widgets',
